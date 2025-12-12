@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guessing Game</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+    }
+
+    .container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-bottom: 10px;
+      font-size: clamp(24px, 5vw, 32px);
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #777;
+      font-size: 14px;
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      margin: 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    label {
+      font-weight: 600;
+      color: #555;
+      font-size: clamp(14px, 3vw, 16px);
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 8px rgba(102, 126, 234, 0.2);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      flex: 1;
+      min-width: 100px;
+      padding: 12px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: clamp(14px, 3vw, 16px);
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #output {
+      margin-top: 25px;
+      padding: 20px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      border-radius: 10px;
+      min-height: 100px;
+      color: #333;
+      font-size: clamp(14px, 3vw, 16px);
+      line-height: 1.6;
+      overflow-y: auto;
+      max-height: 300px;
+      border-left: 5px solid #667eea;
+    }
+
+    #output:empty {
+      display: none;
+    }
+
+    .game-info {
+      background: #f0f4ff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      color: #555;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    /* Tablet styles */
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+      }
+
+      h1 {
+        margin-bottom: 8px;
+      }
+
+      .input-group {
+        margin: 15px 0;
+      }
+
+      button {
+        padding: 10px 15px;
+      }
+    }
+
+    /* Mobile styles */
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        padding: 20px;
+        border-radius: 12px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .subtitle {
+        font-size: 12px;
+        margin-bottom: 20px;
+      }
+
+      .input-group {
+        margin: 12px 0;
+        gap: 8px;
+      }
+
+      label {
+        font-size: 14px;
+      }
+
+      input {
+        padding: 10px 12px;
+        font-size: 16px;
+      }
+
+      .button-group {
+        gap: 8px;
+      }
+
+      button {
+        padding: 10px 15px;
+        font-size: 14px;
+        min-width: 80px;
+      }
+
+      #output {
+        padding: 15px;
+        min-height: 80px;
+        max-height: 250px;
+        font-size: 14px;
+      }
+
+      .game-info {
+        padding: 12px;
+        margin-bottom: 15px;
+        font-size: 13px;
+      }
+    }
+
+    /* Small devices */
+    @media (max-width: 360px) {
+      .container {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 22px;
+      }
+
+      input {
+        padding: 9px 10px;
+      }
+
+      button {
+        padding: 9px 12px;
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 Guessing Game</h1>
+    <p class="subtitle">Test your luck and guess the number!</p>
+
+    <div class="input-group" id="maxInput">
+      <label for="max">Enter the maximum number:</label>
+      <div class="button-group">
+        <input type="number" id="max" placeholder="e.g., 100" min="1">
+        <button onclick="startGame()">Start Game</button>
+      </div>
+    </div>
+
+    <div class="game-info" id="gameInfo" style="display: none;"></div>
+
+    <div class="input-group" id="guessInput" style="display: none;">
+      <label for="guess">Enter your guess (or type 'quit' to exit):</label>
+      <div class="button-group">
+        <input type="text" id="guess" placeholder="Enter a number" autocomplete="off">
+        <button onclick="makeGuess()">Guess</button>
+      </div>
+    </div>
+
+    <div id="output"></div>
+  </div>
+
+  <script src="./guessGaming.js"></script>
+</body>
+</html>
